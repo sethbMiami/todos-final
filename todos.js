@@ -10,8 +10,8 @@ const catchError = require('./lib/catch-error');
 const config = require("./lib/config");
 
 const app = express();
-let host;
-let port;
+let HOST;
+let PORT = config.PORT || 3000;
 const LokiStore = store(session);
 
 app.set("views", "./views");
@@ -344,14 +344,12 @@ app.use((err, req, res, _next) => {
 });
 
 if (process.env.STATUS === 'production') {
-  port = config.PROD_PORT;
-  host = config.PROD_HOST;
+  HOST = config.PROD_HOST;
 } else {
-  port = config.DEV_PORT;
-  host = config.DEV_HOST;
+  HOST = config.DEV_HOST;
 }
 
 // Listener
-app.listen(port, host, () => {
+app.listen(PORT, HOST, () => {
   console.log(`Server in ${config.STATUS} mode, Todos is listening on port ${port} of ${host}!`);
 });
