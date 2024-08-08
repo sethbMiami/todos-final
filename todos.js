@@ -351,5 +351,5 @@ if (process.env.STATUS === 'production') {
 
 // Listener
 app.listen(PORT, HOST, () => {
-  console.log(`Server in ${config.STATUS} mode, Todos is listening on port ${port} of ${host}!`);
+  console.log(`Server in ${config.STATUS} mode, Todos is listening on port ${PORT} of ${HOST}!`);
 });
