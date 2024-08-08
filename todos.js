@@ -7,6 +7,7 @@ const { body, validationResult } = require("express-validator");
 const store = require("connect-loki");
 const PgPersistence = require("./lib/pg-persistence");
 const catchError = require('./lib/catch-error');
+const config = require("./lib/config");
 
 const app = express();
 let host;
@@ -26,10 +27,10 @@ app.use(session({
     path: "/",
     secure: false,
   },
-  name: process.env.SESSION_NAME,
+  name: config.SESSION_NAME,
   resave: false,
   saveUninitialized: true,
-  secret: process.env.SESSION_SECRET,
+  secret: config.SESSION_SECRET,
   store: new LokiStore({}),
 }));
 
@@ -343,14 +344,14 @@ app.use((err, req, res, _next) => {
 });
 
 if (process.env.STATUS === 'production') {
-  port = process.env.PROD_PORT;
-  host = process.env.PROD_HOST;
+  port = config.PROD_PORT;
+  host = config.PROD_HOST;
 } else {
-  port = process.env.DEV_PORT;
-  host = process.env.DEV_HOST;
+  port = config.DEV_PORT;
+  host = config.DEV_HOST;
 }
 
 // Listener
 app.listen(port, host, () => {
-  console.log(`Server in ${process.env.STATUS} mode, Todos is listening on port ${port} of ${host}!`);
+  console.log(`Server in ${config.STATUS} mode, Todos is listening on port ${port} of ${host}!`);
 });
